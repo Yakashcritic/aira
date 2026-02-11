@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - AIRA 2K26</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-cyan: #00d4ff;
+            --primary-magenta: #e91e63;
+            --primary-blue: #1976d2;
+            --dark-bg: #0a0a0a;
+            --glass-bg: rgba(20, 20, 30, 0.8);
+            --text-light: #f5f5f5;
+            --text-gray: #b0b0b0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Professional Background */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            overflow: hidden;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .orb1 {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.2) 0%, transparent 70%);
+            top: -300px;
+            left: -300px;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(233, 30, 99, 0.2) 0%, transparent 70%);
+            bottom: -200px;
+            right: -200px;
+            animation-delay: 8s;
+        }
+
+        .orb3 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(25, 118, 210, 0.2) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 15s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(30px, -30px) scale(1.05);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.95);
+            }
+        }
+
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.5;
+        }
+
+       /* 1. NAVIGATION BASE STYLES */
+nav {
+    display: flex;
+    justify-content: space-between; /* Logo left, Hamburger right-la irukka */
+    align-items: center;
+    padding: 15px 5%;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(15px);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #00f2ff;
+    letter-spacing: 2px;
+    white-space: nowrap; /* Logo rendu line-ah udaiya koodathu */
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #00f2ff;
+}
+
+/* 2. HAMBURGER (MOBILE MENU) ICON */
+.mobile-menu {
+    display: none; /* Desktop-la hide panniduvom */
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.mobile-menu span {
+    width: 30px;
+    height: 3px;
+    background: #00f2ff;
+    border-radius: 5px;
+    transition: 0.4s ease-in-out;
+}
+
+/* 3. MOBILE RESPONSIVE LOGIC (Mismatch-ah fixed panna idhu thaan mukkiyam) */
+@media screen and (max-width: 768px) {
+    /* Logo-vai mobile-ku thagundha madhiri resize pannuvom */
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .mobile-menu {
+        display: flex; /* Mobile-la mattum hamburger theriyum */
+    }
+
+    .nav-links {
+        position: fixed;
+        right: -100%; /* Default-ah screen-ku veliya hide aayirukkum */
+        top: 0;
+        height: 100vh;
+        width: 100%; /* Full screen slide menu */
+        background: rgba(2, 2, 5, 0.98);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+        z-index: 999;
+    }
+
+    /* Menu Open aagumbothu indha class add aagum */
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links li {
+        margin: 25px 0;
+    }
+
+    .nav-links a {
+        font-size: 1.5rem; /* Mobile-la links perusa theriyum */
+        letter-spacing: 4px;
+    }
+
+    /* Hamburger to X Animation */
+    .mobile-menu.open span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+    .mobile-menu.open span:nth-child(2) {
+        opacity: 0;
+    }
+    .mobile-menu.open span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+}
+
+        /* About Section */
+        .about-container {
+            padding: 120px 40px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--text-light);
+        }
+
+        .about-content {
+            display: grid;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .about-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover {
+            border-color: var(--primary-cyan);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .about-card h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary-cyan);
+        }
+
+        .about-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-cyan);
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .feature-text h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-light);
+        }
+
+        .feature-text p {
+            font-size: 1rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-cyan);
+        }
+
+        .stat-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-cyan);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 20px 30px;
+            background: rgba(10, 10, 20, 0.95);
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--primary-cyan);
+        }
+
+        .footer-text {
+            margin-bottom: 15px;
+            line-height: 1.7;
+            color: var(--text-gray);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50%;
+            color: var(--primary-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            color: var(--text-gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: flex;
+            }
+            
+            .page-title {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Professional Background -->
+    <div class="background-container">
+        <div class="gradient-orb orb1"></div>
+        <div class="gradient-orb orb2"></div>
+        <div class="gradient-orb orb3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">AIRA 2K26</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="events.html">Events</a></li>
+           <!-- <li><a href="register.html">Register</a></li>-->
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+<div class="about-container">
+    <h1 class="page-title">About AIRA 2K26</h1>
+    
+    <div class="about-content">
+        <div class="about-card">
+            <h2>Our Vision</h2>
+            <p>AIRA 2K26 aims to be the premier technical symposium that brings together the brightest minds in artificial intelligence and machine learning. We strive to create a platform where innovation meets creativity, and ideas transform into reality.</p>
+            <p>Our vision is to inspire the next generation of tech leaders and foster a community of lifelong learners who will shape the future of AI and ML.</p>
+        </div>
+
+        <div class="about-card">
+            <h2>Department of Computer Science (AI & ML)</h2>
+            <p>The Department of Computer Science (AI & ML) at SRMIST Ramapuram Campus is at the forefront of artificial intelligence education and research. Our state-of-the-art facilities and experienced faculty provide students with the knowledge and skills needed to excel in this rapidly evolving field.</p>
+            <p>We offer comprehensive programs that cover machine learning, deep learning, natural language processing, computer vision, and more, preparing students for the challenges of tomorrow.</p>
+        </div>
+    </div>
+
+    <div class="features-grid">
+        <!-- Prize Pool feature removed -->
+
+        <div class="feature-item">
+            <div class="feature-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="feature-text">
+                <h3>Expert Speakers</h3>
+                <p>Industry leaders and researchers sharing insights on latest AI trends</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-icon">
+                <i class="fas fa-certificate"></i>
+            </div>
+            <div class="feature-text">
+                <h3>Certificates</h3>
+                <p>Certificates for all participants and winners with official recognition</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-icon">
+                <i class="fas fa-network-wired"></i>
+            </div>
+            <div class="feature-text">
+                <h3>Networking</h3>
+                <p>Connect with peers, mentors, and industry professionals</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-section">
+        <div class="stat-card">
+            <span class="stat-number">9+</span>
+            <span class="stat-label">Events</span>
+        </div>
+        <!-- Participants 500+ removed -->
+        <div class="stat-card">
+            <span class="stat-number">2</span>
+            <span class="stat-label">Days</span>
+        </div>
+        <!-- Prize ₹1L+ removed -->
+    </div>
+</div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-title">About AIRA 2K26</h3>
+                <p class="footer-text">AIRA 2K26 is a national level technical symposium organized by the Department of Computer Science (AI & ML) at SRMIST Ramapuram Campus.</p>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Quick Links</h3>
+                <p class="footer-text"><a href="index.html" style="color: var(--primary-cyan);">Home</a></p>
+                <p class="footer-text"><a href="events.html" style="color: var(--primary-cyan);">Events</a></p>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Connect</h3>
+                <p class="footer-text">Email: aira2k26@gmail.com</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 AIRA 2K26. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenu.addEventListener('click', function() {
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '70px';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.background = 'rgba(10, 10, 10, 0.95)';
+                navLinks.style.padding = '20px';
+                navLinks.style.borderBottom = '1px solid rgba(0, 212, 255, 0.2)';
+            }
+        });
+
+
+        
+    const mobileMenuBtn = document.querySelector('.mobile-menu');
+    const navLinksList = document.querySelector('.nav-links');
+
+    mobileMenuBtn.addEventListener('click', () => {
+        // Toggle Menu
+        navLinksList.classList.toggle('active');
+        // Toggle Animation (Hamburger to X)
+        mobileMenuBtn.classList.toggle('open');
+    });
+
+    // Option: Click panna menu close aaga
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinksList.classList.remove('active');
+            mobileMenuBtn.classList.remove('open');
+        });
+    });
+    </script>
+</body>
+</html>

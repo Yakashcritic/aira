@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIRA 2K26 | Neural Core Interface</title>
+    
+    <!-- ASSETS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* 
+           ========================================
+           1. CORE ENGINE VARIABLES
+           ========================================
+        */
+        :root {
+            --p-cyan: #00f2ff;
+            --p-magenta: #ff00ff;
+            --p-gold: #ffb300;
+            --p-red: #ff0033;
+            --bg-ultra: #000103;
+            --hud-glass: rgba(0, 15, 30, 0.7);
+            --font-main: 'Orbitron', sans-serif;
+            --font-mono: 'Share Tech Mono', monospace;
+        }
+
+        /* MOUSE EFFECTS REMOVED: Default cursor restored */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            cursor: default; 
+        }
+
+        body {
+            background-color: var(--bg-ultra);
+            color: #fff;
+            font-family: var(--font-mono);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* 
+           ========================================
+           2. ADVANCED BACKGROUND ENGINE
+           ========================================
+        */
+        .video-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -10; filter: brightness(0.3) contrast(1.5);
+        }
+        .video-container video { width: 100%; height: 100%; object-fit: cover; }
+
+        canvas { position: fixed; top: 0; left: 0; z-index: -5; pointer-events: none; }
+
+        /* SVG Liquid Glitch Filter Overlay */
+        .svg-filters { position: absolute; visibility: hidden; width: 0; height: 0; }
+
+        /* 
+           ========================================
+           3. CINEMATIC HUD FRAMEWORK
+           ========================================
+        */
+        .hud-frame {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 100;
+        }
+
+        .hud-edge {
+            position: absolute; width: 200px; height: 200px;
+            border: 1px solid rgba(0, 242, 255, 0.3);
+        }
+        .edge-tl { top: 30px; left: 30px; border-right: none; border-bottom: none; border-width: 4px 0 0 4px; }
+        .edge-tr { top: 30px; right: 30px; border-left: none; border-bottom: none; border-width: 4px 4px 0 0; }
+        .edge-bl { bottom: 30px; left: 30px; border-right: none; border-top: none; border-width: 0 0 4px 4px; }
+        .edge-br { bottom: 30px; right: 30px; border-left: none; border-top: none; border-width: 0 4px 4px 0; }
+
+        /* Real-time Data Feed (Left Side) */
+        .data-stream {
+            position: fixed; left: 40px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 10px; z-index: 101;
+        }
+        .data-bit { font-size: 0.6rem; color: var(--p-cyan); opacity: 0.5; animation: dataFlow 2s infinite; }
+
+        @keyframes dataFlow { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; } }
+
+        /* 
+           ========================================
+           4. DYNAMIC NAVIGATION
+           ========================================
+        */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 25px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            z-index: 2000; border-bottom: 1px solid rgba(0, 242, 255, 0.1);
+        }
+
+        .brand-hologram {
+            font-family: 'Syncopate'; font-size: 1.5rem; color: var(--p-gold);
+            text-decoration: none; letter-spacing: 5px; text-shadow: 0 0 20px var(--p-gold);
+        }
+
+        .nav-gate { display: flex; list-style: none; gap: 40px; }
+        .nav-gate a {
+            color: #fff; text-decoration: none; font-size: 0.8rem; letter-spacing: 3px;
+            position: relative; transition: 0.4s; padding: 10px;
+            cursor: pointer;
+        }
+        .nav-gate a:hover { color: var(--p-cyan); text-shadow: 0 0 10px var(--p-cyan); }
+
+        /* Mobile Nav Toggle */
+        .mobile-btn { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+        .mobile-btn span { width: 30px; height: 2px; background: var(--p-cyan); transition: 0.4s; }
+
+        /* 
+           ========================================
+           5. HERO CORE (LIQUID GLITCH)
+           ========================================
+        */
+        .main-stage {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            /* MOUSE EFFECTS REMOVED: Parallax perspective removed */
+        }
+
+        .system-log {
+            font-family: var(--font-mono); font-size: 0.8rem; color: var(--p-cyan);
+            margin-bottom: 20px; letter-spacing: 10px; animation: blink 0.5s infinite alternate;
+        }
+
+        @keyframes blink { from { opacity: 1; } to { opacity: 0.3; } }
+
+        /* LIQUID GLITCH TITLE */
+        .core-title {
+            font-family: var(--font-main);
+            font-size: 9rem; font-weight: 900; letter-spacing: 20px;
+            color: #fff; position: relative;
+            filter: url(#liquidGlitch); /* SVG Displacement Filter */
+            animation: core-shake 0.1s infinite;
+        }
+
+        @keyframes core-shake {
+            0% { transform: translate(0); }
+            50% { transform: translate(-3px, 2px); }
+            100% { transform: translate(3px, -2px); }
+        }
+
+        /* 
+           ========================================
+           6. ARCHITECTURAL COUNTDOWN
+           ========================================
+        */
+        .neural-countdown {
+            display: flex; gap: 30px; margin-top: 50px; z-index: 10;
+        }
+
+        .node {
+            background: var(--hud-glass);
+            border: 1px solid var(--p-cyan);
+            padding: 30px; min-width: 150px; position: relative;
+            backdrop-filter: blur(20px);
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+        }
+
+        .node-val {
+            display: block; font-size: 4rem; font-weight: 900;
+            color: var(--p-cyan); font-family: var(--font-mono);
+            text-shadow: 0 0 20px var(--p-cyan);
+        }
+
+        .node-label { font-size: 0.7rem; color: #888; letter-spacing: 5px; margin-top: 10px; }
+
+        /* 
+           ========================================
+           7. SYSTEM ENTRY CTA
+           ========================================
+        */
+        .cta-system { margin-top: 60px; position: relative; }
+        .btn-core {
+            padding: 25px 80px; background: transparent;
+            border: 1px solid var(--p-gold); color: var(--p-gold);
+            font-family: var(--font-main); font-weight: 900;
+            font-size: 1.4rem; letter-spacing: 8px; text-decoration: none;
+            transition: 0.5s; position: relative; display: inline-block;
+            cursor: pointer;
+        }
+        .btn-core::after {
+            content: ''; position: absolute; top: -10px; left: -10px;
+            width: 100%; height: 100%; border: 1px solid rgba(255,179,0,0.3);
+            transition: 0.4s;
+        }
+        .btn-core:hover { background: var(--p-gold); color: #000; box-shadow: 0 0 80px var(--p-gold); }
+        .btn-core:hover::after { top: 0; left: 0; border-color: transparent; }
+
+        /* 
+           ========================================
+           8. RESPONSIVE ENGINE
+           ========================================
+        */
+        @media (max-width: 1024px) {
+            .core-title { font-size: 5.5rem; letter-spacing: 12px; }
+            .node { min-width: 120px; padding: 20px; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 15px 30px; }
+            .nav-gate {
+                position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+                background: #000; flex-direction: column; justify-content: center;
+                transition: 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+            }
+            .nav-gate.active { right: 0; }
+            .mobile-btn { display: flex; z-index: 2100; }
+            .core-title { font-size: 3.5rem; letter-spacing: 5px; }
+            .neural-countdown { gap: 10px; flex-wrap: wrap; justify-content: center; }
+            .node { min-width: 85px; padding: 15px; }
+            .node-val { font-size: 2rem; }
+            .data-stream { display: none; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- SVG DISPLACEMENT FILTER (The Secret for the Liquid Glitch Effect) -->
+    <svg class="svg-filters">
+        <filter id="liquidGlitch">
+            <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
+            <animate xlink:href="#liquidGlitch" attributeName="scale" values="5;20;5;30;5" dur="0.2s" repeatCount="indefinite" />
+        </filter>
+    </svg>
+
+    <!-- LIVE BACKGROUND COMPONENTS -->
+    <div class="video-container">
+        <video autoplay muted loop playsinline>
+            <!-- Replace with your fire video filename -->
+            <source src="fire.mp4" type="video/mp4">
+        </video>
+    </div>
+    <canvas id="neural-bg"></canvas>
+
+    <!-- HUD ARCHITECTURE -->
+    <div class="hud-frame">
+        <div class="hud-edge edge-tl"></div>
+        <div class="hud-edge edge-tr"></div>
+        <div class="hud-edge edge-bl"></div>
+        <div class="hud-edge edge-br"></div>
+    </div>
+
+    <!-- Live Hex Data Stream (Left Side) -->
+    <div class="data-stream" id="dataStream"></div>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="#" class="brand-hologram"> </a>
+        
+        <ul class="nav-gate" id="navLinks">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="events.html">EVENTS</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+
+        <div class="mobile-btn" id="mobileBtn">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- MAIN INTERFACE -->
+    <main class="main-stage">
+        
+        <h1 class="core-title" data-text="AIRA 2K26">AIRA 2K26</h1>
+
+        <div class="neural-countdown">
+            <div class="node"><span class="node-val" id="d">00</span><span class="node-label">DAYS</span></div>
+            <div class="node"><span class="node-val" id="h">00</span><span class="node-label">HOURS</span></div>
+            <div class="node"><span class="node-val" id="m">00</span><span class="node-label">MINS</span></div>
+            <div class="node"><span class="node-val" id="s">00</span><span class="node-label">SECS</span></div>
+        </div>
+
+        <div class="cta-system">
+            <a href="events.html" class="btn-core">REGISTER NOW</a>
+        </div>
+    </main>
+
+    <script>
+        /**
+         * 1. THE NEURAL CORE ENGINE (Canvas Particles)
+         */
+        const canvas = document.getElementById('neural-bg');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Bit {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedY = Math.random() * 2 + 1;
+                this.opacity = Math.random();
+            }
+            update() {
+                this.y -= this.speedY;
+                if (this.y < 0) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = `rgba(0, 242, 255, ${this.opacity})`;
+                ctx.fillRect(this.x, this.y, this.size, this.size * 5);
+            }
+        }
+
+        function init() {
+            resize();
+            for(let i=0; i<100; i++) particles.push(new Bit());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        /**
+         * 2. REAL-TIME DATA STREAM GENERATOR
+         */
+        const stream = document.getElementById('dataStream');
+        const hex = "0123456789ABCDEF";
+        function generateData() {
+            let line = "";
+            for(let i=0; i<15; i++) line += hex[Math.floor(Math.random()*16)];
+            const div = document.createElement('div');
+            div.className = 'data-bit';
+            div.innerText = `0x${line}`;
+            stream.appendChild(div);
+            if(stream.children.length > 20) stream.removeChild(stream.firstChild);
+        }
+        setInterval(generateData, 200);
+
+        /**
+         * 3. MOBILE NAVIGATION
+         */
+        const mobileBtn = document.getElementById('mobileBtn');
+        const navLinks = document.getElementById('navLinks');
+        mobileBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileBtn.classList.toggle('toggle');
+        });
+
+        /**
+         * 4. COUNTDOWN ENGINE
+         */
+        function updateTimer() {
+            const target = new Date("March 16, 2026 09:00:00").getTime();
+            const now = new Date().getTime();
+            const gap = target - now;
+
+            const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
+            const d = Math.floor(gap / day);
+            const h = Math.floor((gap % day) / hour);
+            const m = Math.floor((gap % hour) / minute);
+            const s = Math.floor((gap % minute) / second);
+
+            document.getElementById('d').innerText = d < 10 ? "0"+d : d;
+            document.getElementById('h').innerText = h < 10 ? "0"+h : h;
+            document.getElementById('m').innerText = m < 10 ? "0"+m : m;
+            document.getElementById('s').innerText = s < 10 ? "0"+s : s;
+        }
+
+        window.addEventListener('resize', resize);
+        init();
+        animate();
+        setInterval(updateTimer, 1000);
+
+        // MOUSE EVENT LISTENERS REMOVED (As requested)
+
+    </script>
+</body>
+</html>
