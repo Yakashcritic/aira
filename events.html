@@ -2,11 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Events - AIRA 2K26</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+.modal {
+    display: none; /* JS vazhiya 'flex' aagum */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.96); /* Darker for focus */
+    backdrop-filter: blur(10px);
+    z-index: 10000; /* Sabse upar */
+    
+    /* Perfect Center */
+    justify-content: center;
+    align-items: center;
+    padding: 0; /* Clear padding to avoid scaling issues */
+}
+
+.modal-content {
+    background: #0a0f1e;
+    border: 1px solid var(--primary-cyan);
+    border-radius: 12px;
+    position: relative;
+    
+    /* Width logic for different screens */
+    width: 92%; /* Mobile-la screen-oda ratio-ku fit aagum */
+    max-width: 500px; /* Laptop-la limit aagum */
+    
+    /* Height logic */
+    max-height: 85vh; 
+    overflow-y: auto;
+    padding: 30px;
+    
+    /* Animation */
+    animation: modalIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 40px rgba(0, 242, 255, 0.2);
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Close Button Position */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+/* Mobile Alignment Fix */
+@media screen and (max-width: 600px) {
+    .modal-content {
+        width: 95%; /* Phone-la full ratio usage */
+        padding: 20px;
+        max-height: 90vh;
+        border-radius: 8px;
+    }
+    
+    #modalTitle { font-size: 1.4rem; }
+    #modalRules li { font-size: 0.85rem; }
+}
+
+/* Prevent body scrolling when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
         :root {
             --primary-cyan: #00d4ff;
             --primary-blue: #3b82f6;
@@ -387,67 +457,166 @@ nav {
     </div>
 
     <script>
-        // 1. Google Form Links add panni iruken
+      // 1. Google Form Links with Detailed Rules & Coordinators
 const eventData = {
     'ai-myth-busters': {
         title: 'AI Myth Busters',
         formUrl: 'https://forms.gle/pd6aq3fSrioYSukSA',
-        rules: ['Solo or Team participation (Max 2 members)', 'Questions based on myths/facts of AI'],
-        coords: [{ name: 'Rishikessh S', ph: '9150246165' }]
+        rules: [
+            'Solo or Team participation (Max 2 members)',
+            'Registration fee: ₹100 per head',
+            'Event will be conducted in multiple rounds',
+            'Questions will be based on common myths and facts related to AI',
+            'Teams must respond within the given time limit for each round',
+            'Explanation is mandatory wherever required',
+            'Use of mobile phones or external assistance is strictly prohibited',
+            'Judging will be based on accuracy, clarity and logical reasoning',
+            'Judges decision will be final'
+        ],
+        coords: [
+            { name: 'Rishikessh S', ph: '9150246165' },
+            { name: 'Santhoshrajan J', ph: '91502 08697' }
+        ]
     },
     'debugging': {
         title: 'Debugging',
         formUrl: 'https://forms.gle/9DW17umGEPDJzxRR7',
-        rules: ['Individual or team (max 2 members)', 'Languages: C++, Java, Python'],
-        coords: [{ name: 'Gokul Prasad M', ph: '6379175328' }]
+        rules: [
+            'Individual or team participation (max 2 members)',
+            'Registration fee: ₹100 per head',
+            'Programming languages: C++, Java, Python',
+            'No mobile phones/Laptops, Internet, or External assistance',
+            'Rounds cover debugging, error detection, logic fixing, and output prediction',
+            'Code must be debugged within the given time limit',
+            'Judging based on accuracy, speed, logic, and clarity. Judges decision will be final'
+        ],
+        coords: [
+            { name: 'Gokul Prasad M', ph: '6379175328' },
+            { name: 'Haritha R', ph: '9025428785' }
+        ]
     },
     'tech-quiz': {
         title: 'Tech Quiz',
         formUrl: 'https://forms.gle/NwaRJxG8M5CAsVZL8',
-        rules: ['Solo or Team (Max 2 members)', 'Topics: Technology, AI, ML, CS'],
-        coords: [{ name: 'Niranjan Sriram J A', ph: '8838594514' }]
+        rules: [
+            'Participation can be Solo or Team (Maximum 2 members per team)',
+            'Registration fee: ₹100 per head',
+            'The event will be conducted in multiple rounds',
+            'Questions based on Technology, AI, ML, Computer Science, and trends',
+            'Each team must answer within the given time limit for every round',
+            'Use of mobile phones or smart devices is strictly prohibited',
+            'Judging criteria: Accuracy, speed, clarity, and logical reasoning',
+            'Judges’ decision will be final and binding'
+        ],
+        coords: [
+            { name: 'Niranjan Sriram J A', ph: '8838594514' },
+            { name: 'Sanjay S M', ph: '-' }
+        ]
     },
     'ui-ux': {
         title: 'UI/UX Design Challenge',
         formUrl: 'https://forms.gle/hsHum5moW8ZmoU95A', 
-        rules: ['Team: 1 or 2 members', 'Design tool: Only Figma'],
-        coords: [{ name: 'Shesha sai R', ph: '9962052246' }]
+        rules: [
+            'Team participation: 1 or 2 members per team',
+            'Registration fee: Rs. 100 per head',
+            'Duration: 1 hour 30 minutes | Presentation: 3 minutes',
+            'Design tool allowed: Only Figma (PCs provided in lab)',
+            'Designs must be created on the spot—no pre-made templates',
+            'Submit 2–5 UI/UX screens based on problem statement',
+            'Deliverables submitted as link or PNG/JPG before time ends',
+            'Mobile phones allowed only for reference',
+            'Topics: E-commerce redesign, Travel Planner, Smart Campus, etc.'
+        ],
+        coords: [
+            { name: 'Shesha sai R', ph: '9962052246' },
+            { name: 'Bagavath', ph: '79047 85015' }
+        ]
     },
     'poster': {
         title: 'Poster Preparation',
         formUrl: 'https://forms.gle/iL79QfTpmCTAwioYA',
-        rules: ['Team participation: 1 or 2 members', 'Topics: AI, ML, Cloud, Block Chain'],
-        coords: [{ name: 'Saravana Bhava.V', ph: '7904534364' }]
+        rules: [
+            'Team participation: 1 or 2 members per team',
+            'Registration fee Rs 100 per head | Presentation: 10 min',
+            'Posters should be strictly in one page',
+            'Poster template will be provided',
+            'Topics: AI, ML, Cloud Computing, Gen AI, Digital Marketing, Blockchain',
+            'Judging based on novelty, presentation, clarity and judges decision final'
+        ],
+        coords: [
+            { name: 'Saravana Bhava.V', ph: '7904534364' },
+            { name: 'Reema begum.A', ph: '7845785109' }
+        ]
     },
     'ipl-auction': {
         title: 'IPL Auction',
         formUrl: 'https://forms.gle/vvGJ2zYprSgeNHAm9',
-        rules: ['Team participation (max 3 or 4 members)', 'No phones allowed'],
-        coords: [{ name: 'Divya', ph: '8148843434' }]
+        rules: [
+            'Team participation (max 3 or 4 members)',
+            'Registration fee: ₹100 per head in a team',
+            'Time limit: 1 hour 30 minutes',
+            'No phones are allowed | Short explanation mandatory',
+            'Judging based on the auction points and judge decision final'
+        ],
+        coords: [
+            { name: 'Divya', ph: '8148843434' },
+            { name: 'Shan', ph: '98659 58725' }
+        ]
     },
     'waste': {
         title: 'Best from Waste',
         formUrl: 'https://forms.gle/6tbCuxxT5NaYfyrZ9',
-        rules: ['Individual or team (max 2 members)', 'Use only waste reusable materials'],
-        coords: [{ name: 'Mukil Nila.K', ph: '8838190939' }]
+        rules: [
+            'Individual or team participation (max 2 members)',
+            'Registration fee: ₹100 per head | Time: 45 mins',
+            'Theme: Based on current trends',
+            'Use only waste / reusable materials (No ready-made items)',
+            'Materials must be non-hazardous | Explanation mandatory',
+            'Judging based on creativity and usefulness'
+        ],
+        coords: [
+            { name: 'Mukil Nila.K', ph: '8838190939' },
+            { name: 'Sachin', ph: '6379744547' }
+        ]
     },
     'link-logic': {
         title: 'Link Logic',
         formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeAsnKVpvDI4n6n6JJfWTouknUUWhANriFTmpblonIfyz_fuw/viewform',
-        rules: ['Team participation Max 2 members', 'Three Rounds (Basic, Logical, Final)'],
-        coords: [{ name: 'Ms.Aasha Nashreen', ph: '95001 28194' }]
+        rules: [
+            'Team participation Max 2 member per team',
+            'Registration fee Rs 100 for each person',
+            'Three Rounds: Basic Link, Logical (Connection), Final Round',
+            'No mobiles or Electronic gadgets allowed',
+            'Answer must be announced within time',
+            'Faculty coordinator: Ms.G.Preetha (99623 68342)'
+        ],
+        coords: [
+            { name: 'Ms.Aasha nashreen', ph: '95001 28194' },
+            { name: 'Mr.Logeshwaran', ph: '6383300388' }
+        ]
     },
     'raw-ready': {
         title: 'Raw & Ready',
         formUrl: 'https://forms.gle/fnYHRggJXEB8cdLK8', 
-        rules: ['Solo or Team (max 3 members)', 'No fire or heating appliances allowed'],
-        coords: [{ name: 'THARANI K', ph: '9600502701' }]
+        rules: [
+            'Individual or team participation (max 3 members)',
+            'Registration fee: ₹100 per head | Time: 30 mins',
+            'No fire or heating appliances allowed',
+            'Only ready-to-eat or raw ingredients should be used',
+            'Participants must bring their own materials/ingredients',
+            'Hygiene must be maintained | No wastage of food',
+            'Cleanliness and taste are key judging criteria'
+        ],
+        coords: [
+            { name: 'THARANI K', ph: '9600502701' },
+            { name: 'DIVYA S', ph: '9361937966' }
+        ]
     }
 };
 
 let selectedEvents = [];
 
-// 2. Selection Logic
+// 2. Selection Logic (Modified with Max 2 Limit)
 document.querySelectorAll('.event-card').forEach(card => {
     card.addEventListener('click', function(e) {
         if(e.target.classList.contains('view-btn')) return;
@@ -456,16 +625,22 @@ document.querySelectorAll('.event-card').forEach(card => {
         const name = this.querySelector('.event-title').innerText;
 
         if (this.classList.contains('selected')) {
+            // Deselect panna allow pannum
             this.classList.remove('selected');
             selectedEvents = selectedEvents.filter(ev => ev.id !== id);
         } else {
+            // Pudhusa select panna munnadi count check pannum
+            if (selectedEvents.length >= 2) {
+                alert("Maximum 2 events mattum dhaan select panna mudiyaadhu!");
+                return; // 2 mela pona ingaye stop aydum
+            }
+            
             this.classList.add('selected');
             selectedEvents.push({ id, name });
         }
         updateBar();
     });
 });
-
 // 3. Update Floating Bar with Combo Logic
 function updateBar() {
     const bar = document.getElementById('checkoutBar');
@@ -527,19 +702,32 @@ function filterEvents(cat, btn) {
     });
 }
 
-// Modal Functions
 function openModal(id) {
     const data = eventData[id];
+    if (!data) return;
+
     document.getElementById('modalTitle').innerText = data.title;
     document.getElementById('modalRules').innerHTML = data.rules.map(r => `<li>${r}</li>`).join('');
-    document.getElementById('modalCoordinators').innerHTML = data.coords.map(c => `
-        <div class="coord-box"><strong>${c.name}</strong><br>Ph: ${c.ph}</div>
+    
+    const coordHtml = data.coords.map(c => `
+        <div class="coord-box" style="margin-top:10px; padding:12px; background:rgba(255,255,255,0.05); border-left:3px solid var(--primary-cyan);">
+            <strong>${c.name}</strong><br>
+            <span style="color:var(--primary-cyan); font-size:0.85rem;">Ph: ${c.ph}</span>
+        </div>
     `).join('');
-    document.getElementById('eventModal').style.display = 'block';
+    
+    document.getElementById('modalCoordinators').innerHTML = coordHtml;
+
+    const modal = document.getElementById('eventModal');
+    modal.style.display = 'flex'; // Centering-ku 'flex' thaan use pannanum
+    document.body.classList.add('modal-open'); // Background scroll lock
 }
 
-function closeModal() { document.getElementById('eventModal').style.display = 'none'; }
-window.onclick = function(e) { if (e.target == document.getElementById('eventModal')) closeModal(); }
+function closeModal() {
+    const modal = document.getElementById('eventModal');
+    modal.style.display = 'none';
+    document.body.classList.remove('modal-open');
+}
     </script>
 </body>
 </html>

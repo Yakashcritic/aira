@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Me</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #0b0f19;
+    color: #ffffff;
+}
+
+.about {
+    padding: 80px 10%;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 60px;
+}
+
+.left {
+    flex: 1;
+}
+
+.small-title {
+    color: #f5a623;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.left h1 {
+    font-size: 48px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.left h1 span {
+    color: #f5a623;
+}
+
+.left p {
+    color: #9ca3af;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.card {
+    background: #111827;
+    padding: 25px;
+    border-radius: 12px;
+    transition: 0.3s;
+    border: 1px solid #1f2937;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: #f5a623;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #9ca3af;
+}
+
+</style>
+<body>
+
+<section class="about">
+    <div class="container">
+
+        <div class="left">
+            <h4 class="small-title">ABOUT ME</h4>
+            <h1>
+                Passionate about crafting <br>
+                <span>digital experiences</span>
+            </h1>
+
+            <p>
+                I'm a creative developer with a passion for building
+                beautiful and functional web applications. With expertise in
+                modern frontend technologies, I transform ideas into
+                seamless digital experiences.
+            </p>
+
+            <p>
+                When I'm not coding, you can find me exploring new
+                design trends, contributing to open-source projects,
+                or experimenting with the latest web technologies.
+            </p>
+        </div>
+
+        <div class="right">
+            <div class="card">
+                <h3>Clean Code</h3>
+                <p>Writing maintainable, scalable code</p>
+            </div>
+
+            <div class="card">
+                <h3>UI/UX Design</h3>
+                <p>Creating intuitive user experiences</p>
+            </div>
+
+            <div class="card">
+                <h3>Performance</h3>
+                <p>Building fast, optimized applications</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>
