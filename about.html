@@ -430,6 +430,36 @@ nav {
                 font-size: 2.2rem;
             }
         }
+
+         .ct-footer-credit {
+        width: 100%;
+        text-align: center;
+        padding: 20px 0;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 13px;
+        letter-spacing: 1px;
+        color: #888; /* Light Grey for subtle look */
+    }
+
+    .ct-footer-credit a {
+        text-decoration: none;
+        font-family: 'Orbitron', sans-serif; /* Techy font for company name */
+        font-weight: 500;
+        color: #00d4ff; /* Tech Blue color - You can change this */
+        transition: 0.3s ease;
+        position: relative;
+    }
+
+    .ct-footer-credit a:hover {
+        color: #fff;
+        text-shadow: 0 0 8px #00d4ff;
+    }
+
+    /* Symbol texture */
+    .ct-footer-credit span {
+        color: #555;
+        margin: 0 5px;
+    }
     </style>
 </head>
 <body>
@@ -546,9 +576,13 @@ nav {
                 </div>
             </div>
         </div>
-        <div class="copyright">
-            <p>&copy; 2026 AIRA 2K26. All rights reserved.</p>
-        </div>
+         <div class="ct-footer-credit">
+    © 2026 All Rights Reserved <span> | </span> Powered by <a href="https://critictech.com" target="_blank">CRITIC TECH</a>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
     </footer>
 
     <script>
