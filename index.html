@@ -251,6 +251,177 @@
             .data-stream { display: none; }
         }
 
+
+        /* --- PERFECT VIEWPORT FIT ENGINE --- */
+.main-stage {
+    height: 100vh; /* Screen height-ku ulla lock pannum */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically Center */
+    align-items: center;     /* Horizontally Center */
+    padding: 20px;
+    box-sizing: border-box;
+    gap: 10px; /* Elements-ku naduvula minimal gap */
+    position: relative;
+    z-index: 10;
+}
+
+/* Logo Spacing Fix */
+.srm-logo-wrapper {
+    margin-top: 40px; /* Navbar-ku keela start aaga */
+    margin-bottom: 0;
+}
+
+.srm-logo-img {
+    width: 200px; /* Laptop size slightly reduced to fit title */
+    height: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+/* Title Font Scaling (Based on screen height) */
+.core-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(3rem, 15vh, 7.5rem); /* Dynamic resizing: ratio-ku ethamari maarum */
+    font-weight: 900;
+    letter-spacing: 15px;
+    margin: 0;
+    line-height: 1.1;
+}
+
+/* Countdown spacing */
+.neural-countdown {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.node {
+    background: rgba(0, 10, 25, 0.8);
+    border: 1px solid rgba(0, 242, 255, 0.3);
+    padding: 15px;
+    min-width: 110px;
+    text-align: center;
+}
+
+.node-val { font-size: 2.5rem; }
+
+/* Mobile Ratio Adjustments */
+@media (max-width: 768px) {
+    .main-stage {
+        justify-content: space-evenly; /* Even spacing on small phones */
+        padding-top: 80px;
+    }
+
+    .srm-logo-img {
+        width: 140px; /* Smaller logo on phone */
+    }
+
+    .core-title {
+        font-size: 3.5rem;
+        letter-spacing: 5px;
+    }
+
+    .neural-countdown {
+        gap: 8px;
+    }
+
+    .node {
+        min-width: 70px;
+        padding: 10px;
+    }
+
+    .node-val {
+        font-size: 1.5rem;
+    }
+}
+
+/* Small heights fix (e.g. rotated phone) */
+@media (max-height: 600px) {
+    .srm-logo-img { width: 100px; }
+    .core-title { font-size: 2.5rem; }
+    .neural-countdown { transform: scale(0.8); }
+}
+
+@media only screen and (max-width: 768px) {
+  /* Mobile styles here */
+  .countdown { font-size: 14px; }
+  .register-button { padding: 10px 20px; }
+}
+
+
+/* Laptop/Desktop Settings */
+.dept-title {
+    font-family: 'Share Tech Mono', monospace;
+    color: #00f2ff;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.8);
+}
+
+/* 📱 Phone-ukku mattum indha settings (Responsive) */
+@media (max-width: 768px) {
+    .dept-title {
+        font-size: 0.65rem; /* Innum konjam chinna size */
+        letter-spacing: 1.5px; /* Spacing-ah nalla koraichuten, appo dhaan screen ulla adangum */
+        padding: 0 20px; /* Sides-la gap irukka */
+        line-height: 1.4;
+        margin-top: 10px;
+        margin-bottom: 0px;
+        width: 90%; /* Screen edges-ah touch pannaama irukka */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* "AIRA 2K26" size-ah mobile-la konjam koraikalaam mismatch-ah theriyama irukka */
+    .core-title {
+        font-size: 3rem !important; /* Title-ah konjam adjust panrom */
+        margin-top: 5px !important;
+    }
+
+    /* Logo size mobile-la */
+    .srm-logo-img {
+        width: 150px; /* Logo-va konjam chinna panna space kedaikum */
+    }
+}
+
+@media (max-width: 768px) {
+    /* 1. Register Now Button-ah align panna */
+    .btn-core {
+        font-size: 1rem !important; /* Font-ah koraikurom */
+        padding: 10px 20px !important; /* Button size-ah konjam compact-ah aakurom */
+        letter-spacing: 2px !important; /* Spacing-ah koraikurom */
+        white-space: nowrap; /* Text-ah ore line-la veika (Register Now break aagathu) */
+        display: inline-block;
+    }
+
+    /* 2. Button container (Orange border) HUD kulla vara */
+    .cta-system {
+        margin-top: 15px; /* Date-kum button-kum gap */
+        margin-bottom: 20px; /* Bottom edge-la ottama iruka */
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    /* 3. Overall HUD Frame-ah konjam adjust panna (optional) */
+    .hud-frame {
+        bottom: 10px !important; /* Frame-ah konjam keela thalli veika */
+    }
+
+    /* 4. Date size-ah innum konjam koraikalaam space kedaika */
+    .simple-date {
+        font-size: 0.8rem !important;
+        margin-top: 5px !important;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -301,21 +472,74 @@
     </nav>
 
     <!-- MAIN INTERFACE -->
-    <main class="main-stage">
-        
-        <h1 class="core-title" data-text="AIRA 2K26">AIRA 2K26</h1>
+   <main class="main-stage">
+    <!-- Centered Logo -->
+    <div class="srm-logo-wrapper">
+        <img src="Srm_logo-removebg-preview.png" class="srm-logo-img" alt="SRM Logo">
+    </div>
+        <div class="dept-title">DEPARTMENT OF COMPUTER SCIENCE (AI & ML)</div>
+        <style>.dept-title {
+    font-family: 'Share Tech Mono', monospace; /* Tech look-aga idhe font use panrom */
+    color: #00f2ff; /* Unga timer color-oda match aagum (Cyan) */
+    font-size: 1rem;
+    letter-spacing: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    text-shadow: 0 0 8px rgba(0, 242, 255, 0.7); /* Light-ah glow aagum */
+    animation: glowText 2s ease-in-out infinite alternate;
+}
 
-        <div class="neural-countdown">
-            <div class="node"><span class="node-val" id="d">00</span><span class="node-label">DAYS</span></div>
-            <div class="node"><span class="node-val" id="h">00</span><span class="node-label">HOURS</span></div>
-            <div class="node"><span class="node-val" id="m">00</span><span class="node-label">MINS</span></div>
-            <div class="node"><span class="node-val" id="s">00</span><span class="node-label">SECS</span></div>
-        </div>
+/* Chinna pulsing effect (optional) */
+@keyframes glowText {
+    from { text-shadow: 0 0 5px #00f2ff; }
+    to { text-shadow: 0 0 15px #00f2ff, 0 0 20px #00f2ff; }
+}
 
-        <div class="cta-system">
-            <a href="events.html" class="btn-core">REGISTER NOW</a>
-        </div>
-    </main>
+/* Mobile-ukku thagundha madhiri size adjustment */
+@media (max-width: 768px) {
+    .dept-title {
+        font-size: 0.7rem;
+        letter-spacing: 2px;
+    }
+}</style>
+
+
+    <h1 class="core-title" data-text="AIRA 2K26">AIRA 2K26</h1>
+
+    <div class="neural-countdown">
+        <div class="node"><span class="node-val" id="d">00</span><span class="node-label">DAYS</span></div>
+        <div class="node"><span class="node-val" id="h">00</span><span class="node-label">HOURS</span></div>
+        <div class="node"><span class="node-val" id="m">00</span><span class="node-label">MINS</span></div>
+        <div class="node"><span class="node-val" id="s">00</span><span class="node-label">SECS</span></div>
+    </div>
+    <div class="simple-date">MARCH 16, 2026</div>
+    <style>.simple-date {
+    font-family: 'Share Tech Mono', monospace; /* Tech vibe font */
+    color: #ffb300; /* Gold color matching your theme */
+    font-size: 1.2rem;
+    letter-spacing: 5px;
+    font-weight: 900;
+    margin-top: 15px; /* Timer-ku keela chinna gap */
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+}
+
+/* Mobile responsive size */
+@media (max-width: 768px) {
+    .simple-date {
+        font-size: 0.9rem;
+        letter-spacing: 3px;
+    }
+}</style>
+
+    <div class="cta-system">
+        <a href="events.html" class="btn-core" style="">REGISTER NOW</a>
+    </div>
+</main>
      <div class="ct-footer-credit">
     © 2026 All Rights Reserved <span> | </span> Powered by <a href="https://critictech.com" target="_blank">CRITIC TECH</a>
                 <div class="footer-links">

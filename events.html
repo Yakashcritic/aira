@@ -340,7 +340,130 @@ nav {
     }
 
 
+/* --- HUD CONTAINER & STYLES --- */
 
+
+.important-notes {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.note-item {
+    font-size: 0.7rem;
+    color: #ff4d4d; /* Red color for warning */
+    line-height: 1.4;
+    margin-bottom: 8px;
+    text-transform: none; /* Keep it readable */
+}
+
+.note-item i {
+    margin-right: 5px;
+}
+
+/* Specific highlight for Team info */
+.note-item:last-child {
+    color: #00f2ff;
+}
+.side-hud-container {
+    position: fixed;
+    right: 25px;
+    top: 180px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 220px;
+}
+
+/* Rulebook Button */
+.floating-rulebook {
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid var(--primary-cyan);
+    color: var(--primary-cyan);
+    padding: 12px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+    transition: 0.3s;
+    letter-spacing: 1px;
+}
+
+.floating-rulebook:hover {
+    background: var(--primary-cyan);
+    color: #000;
+    box-shadow: 0 0 25px var(--primary-cyan);
+    transform: translateX(-5px);
+}
+
+/* Pricing Info Box */
+.pricing-info-box {
+    background: rgba(17, 24, 39, 0.9);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-left: 4px solid #ffb300;
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.box-title {
+    color: #ffb300;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    border-bottom: 1px dashed rgba(255, 179, 0, 0.3);
+    padding-bottom: 5px;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin: 8px 0;
+    color: #fff;
+    font-family: monospace;
+}
+
+.price-row span { color: var(--primary-cyan); font-weight: bold; }
+
+.price-row.combo { color: #00ffaa; }
+
+.combo-hint {
+    font-size: 0.65rem;
+    color: var(--text-gray);
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* 📱 MOBILE RESPONSIVE FIX (Mismatch aagama irukka) */
+@media screen and (max-width: 1100px) {
+    .side-hud-container {
+        position: relative; /* Floating-ah eduthutu normal flow-la veikurom */
+        right: auto;
+        top: auto;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto 40px;
+        flex-direction: row; /* Mobile-la side-by-side */
+        justify-content: center;
+        padding: 0 15px;
+    }
+    
+    .floating-rulebook, .pricing-info-box {
+        flex: 1;
+        font-size: 0.7rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .side-hud-container {
+        flex-direction: column; /* Romba chinna screen-la stacked */
+        width: 90%;
+    }
+}
 
 
 
@@ -365,6 +488,32 @@ nav {
     </nav>
 
     <div class="events-container">
+
+        <!-- START: ADDED HUD SECTION (Rulebook & Pricing) -->
+<div class="side-hud-container">
+    <!-- 1. Rulebook Floating Button -->
+    <a href="rulebook.pdf" target="_blank" class="floating-rulebook">
+        <i class="fas fa-file-pdf"></i> OFFICIAL RULEBOOK
+    </a>
+
+    <!-- 2. Pricing Info Details -->
+    <div class="pricing-info-box">
+        <div class="box-title"><i class="fas fa-tags"></i> PRICE LIST</div>
+        <div class="price-row">1 EVENT <span>₹100</span></div>
+        <div class="price-row combo">2 EVENTS <span>₹150</span></div>
+        <div class="price-row combo">3 EVENTS <span>₹250</span></div>
+        <div class="price-row combo">4 EVENTS <span>₹350</span></div>
+        <p class="combo-hint">*Select & Click Next to Register</p>
+    </div>
+
+    <div class="important-notes">
+        <p class="note-item"><i class="fas fa-exclamation-triangle" style="color: #ffb300;"></i> <strong>Note:</strong> Events may overlap. Please check the schedule before selecting multiple events.</p>
+        <p class="note-item"><i class="fas fa-users"></i> <strong>Team Events:</strong> ₹100 is per head (individual), not per team.</p>
+    </div>
+</div>
+
+<style></style>
+<!-- END: ADDED HUD SECTION -->
         <h1 class="glow-title">Events</h1>
         <p class="page-subtitle">Select events you want to join and click 'Next' to register</p>
 
@@ -493,8 +642,8 @@ nav {
                 </div>
             </div>
 
-    <script>
-      // 1. Google Form Links with Detailed Rules & Coordinators
+   <script>
+// 1. Google Form Links with Detailed Rules & Coordinators
 const eventData = {
     'ai-myth-busters': {
         title: 'AI Myth Busters',
@@ -653,7 +802,7 @@ const eventData = {
 
 let selectedEvents = [];
 
-// 2. Selection Logic (Modified with Max 2 Limit)
+// 2. Selection Logic (MODIFIED: Limit changed to 4)
 document.querySelectorAll('.event-card').forEach(card => {
     card.addEventListener('click', function(e) {
         if(e.target.classList.contains('view-btn')) return;
@@ -662,14 +811,13 @@ document.querySelectorAll('.event-card').forEach(card => {
         const name = this.querySelector('.event-title').innerText;
 
         if (this.classList.contains('selected')) {
-            // Deselect panna allow pannum
             this.classList.remove('selected');
             selectedEvents = selectedEvents.filter(ev => ev.id !== id);
         } else {
-            // Pudhusa select panna munnadi count check pannum
-            if (selectedEvents.length >= 2) {
-                alert("Maximum 2 events mattum dhaan select panna mudiyaadhu!");
-                return; // 2 mela pona ingaye stop aydum
+            // UPDATED: Limit changed from 2 to 4
+            if (selectedEvents.length >= 4) {
+                alert("Maximum 4 events mattum dhaan select panna mudiyum!");
+                return;
             }
             
             this.classList.add('selected');
@@ -678,36 +826,43 @@ document.querySelectorAll('.event-card').forEach(card => {
         updateBar();
     });
 });
-// 3. Update Floating Bar with Combo Logic
+
+// 3. Update Floating Bar with Your Specific Combo Logic
 function updateBar() {
     const bar = document.getElementById('checkoutBar');
     const count = selectedEvents.length;
     let total = 0;
 
+    // YOUR SPECIFIC PRICING LOGIC
     if (count === 1) {
         total = 100;
     } else if (count === 2) {
-        total = 150; // Combo Price
-    } else if (count > 2) {
-        total = 150 + (count - 2) * 100;
+        total = 150; 
+    } else if (count === 3) {
+        total = 250;
+    } else if (count === 4) {
+        total = 350;
     }
 
     if (count > 0) {
         bar.style.display = 'flex';
         document.getElementById('selCount').innerText = count;
         document.getElementById('selTotal').innerText = '₹' + total;
+        
+        // ⚠️ HUD Warning Border for clashes if 2+ selected
+        if(count >= 2) bar.style.border = "1px solid #ffb300";
+        else bar.style.border = "1px solid var(--primary-cyan)";
+
     } else {
         bar.style.display = 'none';
     }
 }
 
-// NEXT BUTTON LOGIC - Modified as per your request
+// 4. NEXT BUTTON LOGIC
 function proceedToRegister() {
-    // Neenga kudutha Combo Form Link
     const comboFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdSY7v_DgD_bZRBIxsD7N9VxJkZiQlyiZvzpis23mKR6ts5ig/viewform?usp=publish-editor";
 
     if (selectedEvents.length === 1) {
-        // --- ORU EVENT SELECT PANNIRUNTHA: Individual Form ---
         const eventId = selectedEvents[0].id;
         const targetForm = eventData[eventId].formUrl;
 
@@ -717,18 +872,16 @@ function proceedToRegister() {
             window.open(targetForm, '_blank'); 
         }
     } 
-    else if (selectedEvents.length >= 2) {
-        // --- RENDU ALLATHU ATHARKU MELA SELECT PANNIRUNTHA: Combo Form ---
-        // Neenga sonna andha link inga open aagum
+    else if (selectedEvents.length >= 2 && selectedEvents.length <= 4) {
+        // Redirect to Combo Form if 2, 3, or 4 events selected
         window.open(comboFormUrl, '_blank');
     } 
     else {
-        // Ethuvum select pannalana alert varum
         alert("Please select at least one event!");
     }
 }
 
-// Filter Function
+// 5. Filter Function
 function filterEvents(cat, btn) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -739,6 +892,7 @@ function filterEvents(cat, btn) {
     });
 }
 
+// 6. Modal Functions
 function openModal(id) {
     const data = eventData[id];
     if (!data) return;
@@ -756,8 +910,8 @@ function openModal(id) {
     document.getElementById('modalCoordinators').innerHTML = coordHtml;
 
     const modal = document.getElementById('eventModal');
-    modal.style.display = 'flex'; // Centering-ku 'flex' thaan use pannanum
-    document.body.classList.add('modal-open'); // Background scroll lock
+    modal.style.display = 'flex';
+    document.body.classList.add('modal-open');
 }
 
 function closeModal() {
@@ -765,6 +919,6 @@ function closeModal() {
     modal.style.display = 'none';
     document.body.classList.remove('modal-open');
 }
-    </script>
+</script>
 </body>
 </html>
